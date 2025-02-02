@@ -1,7 +1,20 @@
 import { assets } from "../../assets/assets";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useApp } from "../../context/AppContext";
 const Navbar = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { currentUser, logout } = useApp();
   const isCoursePageList = location.pathname.includes("/course-list");
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   return (
     <div
@@ -14,23 +27,48 @@ const Navbar = () => {
         alt="logo"
         className="w-28 lg:w-32 cursor-pointer"
       />
+
       <div className="hidden md:flex items-center gap-5 text-gray-500">
         <div className="flex items-center gap-5">
           <button>Become Educator</button>|
           <Link to="my-enrollments">My Enrollments</Link>
         </div>
-        <button className="bg-blue-600 text-white px-5 py-2 rounded-full">
-          Create Account
-        </button>
+        {currentUser ? (
+          <div className="flex items-center gap-4">
+            <span>{currentUser.email}</span>
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 text-white px-5 py-2 rounded-full"
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-4">
+            <Link to="/login">Login</Link>
+            <Link
+              to="/signup"
+              className="bg-blue-600 text-white px-5 py-2 rounded-full"
+            >
+              Create Account
+            </Link>
+          </div>
+        )}
       </div>
-      {/* for phone screen */}
+
       <div className="md:hidden flex items-center gap-2 sm:gap-5 text-gray-500">
         <div>
           <button>Become Educator</button>|
           <Link to="my-enrollments">My Enrollments</Link>
-          <button>
-            <img src={assets.user_icon} alt="" />
-          </button>
+          {currentUser ? (
+            <button onClick={handleLogout}>
+              <img src={assets.user_icon} alt="logout" />
+            </button>
+          ) : (
+            <Link to="/login">
+              <img src={assets.user_icon} alt="login" />
+            </Link>
+          )}
         </div>
       </div>
     </div>

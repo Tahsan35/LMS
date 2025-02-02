@@ -11,6 +11,8 @@ import AddCourse from "./pages/educator/AddCourse";
 import MyCourses from "./pages/educator/MyCourses";
 import StudentsEnrolled from "./pages/educator/StudentsEnrolled";
 import Navbar from "./components/student/Navbar";
+import Login from "./components/auth/Login";
+import SignUp from "./components/auth/SignUp";
 
 const App = () => {
   const isEducatorRoute = useMatch("/educator/*");
@@ -34,6 +36,8 @@ const App = () => {
           <Route path="my-courses" element={<MyCourses />} />
           <Route path="student-enrolled" element={<StudentsEnrolled />} />
         </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} /> vb
       </Routes>
     </div>
   );
