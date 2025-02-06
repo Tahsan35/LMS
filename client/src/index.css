@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+/* @layer components {
+  .course-deatails-heading-small {
+    font-size: 26px;
+  }
+  .course-deatails-heading-large {
+    font-size: 36px;
+  }
+  .home-heading-large {
+    font-size: 60px;
+  }
+  .home-heading-small {
+    font-size: 24px;
+  }
+} */
