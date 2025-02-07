@@ -1,4 +1,5 @@
 import Companies from "../../components/student/Companies";
+import CoursesSection from "../../components/student/CoursesSection";
 import Hero from "../../components/student/Hero";
 import SearchBar from "../../components/student/SearchBar";
 
@@ -8,6 +9,7 @@ const Home = () => {
       <Hero />
       <SearchBar />
       <Companies />
+      <CoursesSection />
     </div>
   );
 };

@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
+import { dummyCourses } from "../assets/assets";
 
 export const AppContext = createContext();
 
@@ -18,7 +19,15 @@ export const AppContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
 
-  // Auth functions
+  const [allCourses, setAllCourses] = useState([]);
+
+  // Fetch all courses
+  const fetchAllCourses = async () => {
+    setAllCourses(dummyCourses);
+  };
+
+  useEffect(() => fetchAllCourses(), []);
+
   const signup = async (email, password) => {
     try {
       setAuthError(null);
@@ -71,6 +80,7 @@ export const AppContextProvider = ({ children }) => {
     signup,
     login,
     logout,
+    allCourses,
   };
 
   return (
