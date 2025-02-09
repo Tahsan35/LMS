@@ -20,6 +20,9 @@ export const AppContextProvider = ({ children }) => {
   const [authError, setAuthError] = useState(null);
 
   const [allCourses, setAllCourses] = useState([]);
+  const [isEducator, setIsEducator] = useState(true);
+
+  //const navigate = useNavigate();
 
   // Fetch all courses
   const fetchAllCourses = async () => {
@@ -81,7 +84,12 @@ export const AppContextProvider = ({ children }) => {
     login,
     logout,
     allCourses,
+    // navigate,
+    isEducator,
+    setIsEducator,
   };
+
+  //
 
   return (
     <AppContext.Provider value={value}>

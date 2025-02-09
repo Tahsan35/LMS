@@ -4,7 +4,8 @@ import { useApp } from "../../context/AppContext";
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { currentUser, logout } = useApp();
+
+  const { currentUser, logout, isEducator } = useApp();
   const isCoursePageList = location.pathname.includes("/course-list");
 
   const handleLogout = async () => {
@@ -26,12 +27,19 @@ const Navbar = () => {
         src={assets.logo}
         alt="logo"
         className="w-28 lg:w-32 cursor-pointer"
+        onClick={() => navigate("/")}
       />
 
       <div className="hidden md:flex items-center gap-5 text-gray-500">
         <div className="flex items-center gap-5">
-          <button>Become Educator</button>|
-          <Link to="my-enrollments">My Enrollments</Link>
+          {currentUser && (
+            <>
+              <button onClick={() => navigate("/educator")}>
+                {isEducator ? "Educator Dashboard" : "Become Educator"}
+              </button>
+              |<Link to="my-enrollments">My Enrollments</Link>
+            </>
+          )}
         </div>
         {currentUser ? (
           <div className="flex items-center gap-4">
@@ -58,7 +66,9 @@ const Navbar = () => {
 
       <div className="md:hidden flex items-center gap-2 sm:gap-5 text-gray-500">
         <div>
-          <button>Become Educator</button>|
+          <button onClick={() => navigate("/educator")}>
+            {isEducator ? "Educator Dashboard" : "Become Educator"}
+          </button>
           <Link to="my-enrollments">My Enrollments</Link>
           {currentUser ? (
             <button onClick={handleLogout}>
