@@ -1,3 +1,4 @@
+import humanizeDuration from "humanize-duration";
 /* eslint-disable react/prop-types */
 import { createContext, useState, useContext, useEffect } from "react";
 import {
@@ -29,6 +30,33 @@ export const AppContextProvider = ({ children }) => {
     setAllCourses(dummyCourses);
   };
 
+  //function to calculate courses chapter time
+  const calculateChapterTime = (chapter) => {
+    let time = 0;
+    chapter.chapterContent.map((lecture) => (time += lecture.lectureDuration));
+    return humanizeDuration(time * 60 * 1000, { units: ["h", "m"] });
+  };
+
+  //calculate duration
+  const calculateCourseDuration = (course) => {
+    let time = 0;
+    course.courseContent.map(
+      (chapter) => (time += calculateChapterTime(chapter))
+    );
+    return humanizeDuration(time * 60 * 1000, { units: ["h", "m"] });
+  };
+
+  // number of lecture in the course
+  const calculateNumberOfLecture = (course) => {
+    let numberOfLecture = 0;
+    course.courseContent.forEach((chapter) => {
+      if (Array.isArray(chapter.chapterContent)) {
+        numberOfLecture += chapter.chapterContent.length;
+      }
+    });
+    return numberOfLecture;
+  };
+  // Auth state listener
   useEffect(() => fetchAllCourses(), []);
 
   const signup = async (email, password) => {
@@ -87,6 +115,9 @@ export const AppContextProvider = ({ children }) => {
     // navigate,
     isEducator,
     setIsEducator,
+    calculateNumberOfLecture,
+    calculateCourseDuration,
+    calculateChapterTime,
   };
 
   //
