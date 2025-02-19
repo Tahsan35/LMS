@@ -22,12 +22,15 @@ export const AppContextProvider = ({ children }) => {
 
   const [allCourses, setAllCourses] = useState([]);
   const [isEducator, setIsEducator] = useState(true);
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
+
 
   //const navigate = useNavigate();
 
   // Fetch all courses
   const fetchAllCourses = async () => {
     setAllCourses(dummyCourses);
+    fetchEnrolledCourses();
   };
 
   //function to calculate courses chapter time
@@ -94,6 +97,11 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
+  //fetch enrolled courses
+  const fetchEnrolledCourses = async () => {
+          setEnrolledCourses(dummyCourses);
+  };
+
   // Monitor auth state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -118,6 +126,8 @@ export const AppContextProvider = ({ children }) => {
     calculateNumberOfLecture,
     calculateCourseDuration,
     calculateChapterTime,
+    enrolledCourses,
+    fetchEnrolledCourses,
   };
 
   //

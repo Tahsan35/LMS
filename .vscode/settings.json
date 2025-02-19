@@ -2,5 +2,6 @@
   "workbench.editor.autoLockGroups": {
     "workbench.editor.chatSession": true
   },
-  "editor.fontSize": 16
+  "editor.fontSize": 16,
+  "prettier.jsxSingleQuote": true
 }
