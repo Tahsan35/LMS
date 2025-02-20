@@ -41,13 +41,11 @@ export default CourseCard;
 // Defining prop types for the component
 CourseCard.propTypes = {
   course: PropTypes.shape({
-    _id: PropTypes.string.isRequired, // Course ID should be a string and required
-    courseThumbnail: PropTypes.string.isRequired, // Thumbnail should be a string and required
-    courseTitle: PropTypes.string.isRequired, // Course title should be a string and required
-    educator: PropTypes.shape({
-      name: PropTypes.string.isRequired, // Educator name should be a string and required
-    }).isRequired,
-    discount: PropTypes.number.isRequired, // Discount should be a number and required
-    coursePrice: PropTypes.number.isRequired, // Course price should be a number and required
-  }).isRequired, // The 'course' prop itself
+    _id: PropTypes.string.isRequired,
+    courseThumbnail: PropTypes.string.isRequired,
+    courseTitle: PropTypes.string.isRequired,
+    educator: PropTypes.string.isRequired, // Expect a string
+    discount: PropTypes.number.isRequired,
+    coursePrice: PropTypes.number.isRequired,
+  }).isRequired,
 };
