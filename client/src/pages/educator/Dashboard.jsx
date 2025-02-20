@@ -47,8 +47,34 @@ const Dashboard = () => {
         <div>
           <h2 className='pb-4 text-lg font-medium'>Latest Enrollments</h2>
           <div className='flex flex-col items-center max-w-4xl w-full overflow-hidden rounded-md bg-white border border-gray-500'>
-            <table>
-              <thead></thead>
+            <table className='table-fixed md:table-auto w-full overflow-hidden'>
+              <thead className=' text-gray-900 border-b border-gray-500/20 text-sm text-left'>
+                <tr>
+                  <th className='px-4 py-2 font-semibold text-center hidden sm:table-cell'>
+                    #
+                  </th>
+                  <th className='px-4 py-2 font-semibold'>Student Name</th>
+                  <th className='px-4 py-2 font-semibold'>Course Title</th>
+                </tr>
+              </thead>
+              <tbody className='text-gray-500 text-sm'>
+                {dashboard.enrolledStudentsData.map((item, index) => (
+                  <tr key={index} className='border-b border-gray-500/20'>
+                    <td className='px-4 py-2 text-center hidden sm:table-cell'>
+                      {index + 1}
+                    </td>
+                    <td className='px-4 py-2 flex items-center space-x-3'>
+                      <img
+                        src={item.student.imageUrl}
+                        alt='profile'
+                        className='w-10 h-10 rounded-full'
+                      />
+                      <span className='truncate'>{item.student.name}</span>
+                    </td>
+                    <td className='px-4 py-2'>{item.courseTitle}</td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
         </div>
