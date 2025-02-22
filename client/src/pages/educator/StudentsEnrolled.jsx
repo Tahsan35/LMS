@@ -40,6 +40,7 @@ const StudentsEnrolled = () => {
                     alt='student_img'
                     className='w-10 h-10 rounded-full'
                   />
+
                   <span className='truncate'> {student.student.name}</span>
                 </td>
                 <td className='px-4 py-2 truncate'>{student.courseTitle}</td>
