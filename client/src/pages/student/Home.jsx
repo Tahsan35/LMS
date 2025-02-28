@@ -8,7 +8,7 @@ import TestimonialsSection from "../../components/student/TestimonialsSection";
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center text-center space-y">
+    <div className="flex flex-col items-center text-center space-y-7">
       <Hero />
       <SearchBar />
       <Companies />

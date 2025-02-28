@@ -2,7 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { assets } from "../../assets/assets";
 import { useState } from "react";
 
+import PropTypes from "prop-types";
+
 const SearchBar = ({ data }) => {
+  SearchBar.propTypes = {
+    data: PropTypes.string,
+  };
   const navigate = useNavigate();
   const [input, setInput] = useState(data ? data : "");
 
@@ -13,7 +18,7 @@ const SearchBar = ({ data }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-xl w-full md:h-14 h-12 items-center bg-white border border-gray-500/20 rounded-lg flex md:px-5 px-3"
+      className="max-w-xl w-full md:h-14 h-12 flex items-center bg-white border border-gray-500/20 rounded"
     >
       <img
         src={assets.search_icon}
