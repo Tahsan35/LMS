@@ -2,12 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { assets } from "../../assets/assets";
 import { useState } from "react";
 
-import PropTypes from "prop-types";
-
 const SearchBar = ({ data }) => {
-  SearchBar.propTypes = {
-    data: PropTypes.string,
-  };
   const navigate = useNavigate();
   const [input, setInput] = useState(data ? data : "");
 

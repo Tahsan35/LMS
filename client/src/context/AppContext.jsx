@@ -3,8 +3,15 @@ import humanizeDuration from "humanize-duration";
 import { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { fetchAllCourses, fetchEnrolledCourses } from "../services/courseService";
-import { calculateCourseDuration, calculateChapterTime, calculateNumberOfLecture } from "../utils/timeUtils";
+import {
+  fetchAllCourses,
+  fetchEnrolledCourses,
+} from "../services/courseService";
+import {
+  calculateCourseDuration,
+  calculateChapterTime,
+  calculateNumberOfLecture,
+} from "../utils/timeUtils";
 
 export const AppContext = createContext();
 
@@ -29,10 +36,9 @@ export const AppContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (currentUser) {
-      loadCourses();
-    }
-  }, [currentUser]);
+    // Load courses regardless of user state
+    loadCourses();
+  }, []); // Remove currentUser dependency
 
   const value = {
     currentUser,
