@@ -1,4 +1,5 @@
 import { assets } from "../../assets/assets";
+import SearchBar from "./SearchBar";
 const Hero = () => {
   return (
     <section className="flex flex-col item-center justify-center w-full md:pt-36 pt-20 px-7 md:px-0 space-y-7 text-center bg-gradient-to-b from-cyan-100/70">
@@ -20,6 +21,9 @@ const Hero = () => {
         We bring together world-class instructors to help you achieve your
         professional goals.
       </p>
+      <div className="flex justify-center w-full">
+        <SearchBar className="text-center" />
+      </div>
     </section>
   );
 };

@@ -2,7 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { assets } from "../../assets/assets";
 import { useState } from "react";
 
+import PropTypes from "prop-types";
+
 const SearchBar = ({ data }) => {
+  SearchBar.propTypes = {
+    data: PropTypes.string,
+  };
   const navigate = useNavigate();
   const [input, setInput] = useState(data ? data : "");
 
@@ -21,10 +26,10 @@ const SearchBar = ({ data }) => {
         className="md:w-auto w-10 px-3"
       />
       <input
-        onChange={(e) => setInput(e.target.value)}
-        value={input}
         type="text"
         placeholder="Search for courses"
+        onChange={(e) => setInput(e.target.value)}
+        value={input}
         className="w-full h-full outline-none text-gray-500/80"
       />
       <button

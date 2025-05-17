@@ -1,5 +1,7 @@
 import { assets } from "../../assets/assets";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+
 const CourseCard = ({ course }) => {
   return (
     <Link
@@ -22,7 +24,7 @@ const CourseCard = ({ course }) => {
               <img key={i} src={assets.star} alt="" className="w-3.5 h-3.5" />
             ))}
           </div>
-          {/* <p className="text-gray-500">4.3</p> */}
+          <p className="text-gray-500">{course.courseRatings?.length || 0}</p>
         </div>
         <p className="text-base font-semibold text-gray-800">
           ${" "}
@@ -37,3 +39,17 @@ const CourseCard = ({ course }) => {
 };
 
 export default CourseCard;
+
+CourseCard.propTypes = {
+  course: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    courseThumbnail: PropTypes.string.isRequired,
+    courseTitle: PropTypes.string.isRequired,
+    educator: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+    courseRatings: PropTypes.array,
+    coursePrice: PropTypes.number.isRequired,
+    discount: PropTypes.number.isRequired,
+  }).isRequired,
+};
