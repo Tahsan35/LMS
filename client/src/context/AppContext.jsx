@@ -13,32 +13,60 @@ import {
   calculateNumberOfLecture,
 } from "../utils/timeUtils";
 
+// Create context for sharing global state and functions
 export const AppContext = createContext();
 
+// Custom hook to access AppContext
 export const useApp = () => useContext(AppContext);
 
 export const AppContextProvider = ({ children }) => {
+  // Get user state and functions from useAuth hook
   const { currentUser, loading, authError, signup, login, logout } = useAuth();
-  const [allCourses, setAllCourses] = useState([]);
-  const [isEducator, setIsEducator] = useState(true);
-  const [enrolledCourses, setEnrolledCourses] = useState([]);
   const navigate = useNavigate();
 
+  // Course-related state
+  const [allCourses, setAllCourses] = useState([]);
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
+
+  const [isEducator, setIsEducator] = useState(false); // Default to false for safety
+
+  // Load all courses and enrolled courses
   const loadCourses = async () => {
     try {
+      // const courses = await fetchAllCourses();
+      // setAllCourses(courses);
+      // const enrolled = await fetchEnrolledCourses(currentUser?.uid);
+      // setEnrolledCourses(enrolled);
       const courses = await fetchAllCourses();
-      setAllCourses(courses);
-      const enrolled = await fetchEnrolledCourses(currentUser?.uid);
-      setEnrolledCourses(enrolled);
+      setAllCourses(Array.isArray(courses) ? courses : []);
+      const enrolled = await fetchEnrolledCourses(currentUser?.uid || null);
+      setEnrolledCourses(Array.isArray(enrolled) ? enrolled : []);
     } catch (error) {
+      //
       console.error("Failed to load courses:", error);
     }
   };
 
+  // Initialize isEducator based on user role
   useEffect(() => {
     // Load courses regardless of user state
     loadCourses();
   }, []); // Remove currentUser dependency
+
+  // // Initialize isEducator based on user role
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     // Replace with actual role check logic from your backend or user data
+  //     setIsEducator(currentUser.role === "educator" || false);
+  //   } else {
+  //     setIsEducator(false);
+  //   }
+  // }, [currentUser]);
+
+  // // Load courses on mount and when currentUser changes
+  // useEffect(() => {
+  //   loadCourses();
+  // }, [currentUser]);
 
   const value = {
     currentUser,
