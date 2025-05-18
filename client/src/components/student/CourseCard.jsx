@@ -45,9 +45,7 @@ CourseCard.propTypes = {
     _id: PropTypes.string.isRequired,
     courseThumbnail: PropTypes.string.isRequired,
     courseTitle: PropTypes.string.isRequired,
-    educator: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }).isRequired,
+    educator: PropTypes.string.isRequired,
     courseRatings: PropTypes.array,
     coursePrice: PropTypes.number.isRequired,
     discount: PropTypes.number.isRequired,

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../../context/AppContext";
+import { GoogleSvg } from "./GoogleSvg";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -8,7 +9,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { signup, authError } = useApp();
+  const { signup, authError, loginWithGoogle } = useApp();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +25,18 @@ const SignUp = () => {
       navigate("/");
     } catch (error) {
       console.error("Signup error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    setIsLoading(true);
+    try {
+      await loginWithGoogle();
+      navigate("/");
+    } catch (error) {
+      console.error("Google signup error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -74,6 +87,23 @@ const SignUp = () => {
           {isLoading ? "Creating Account..." : "Create Account"}
         </button>
       </form>
+
+      {/* Google provider */}
+      <div className="mt-4 flex items-center justify-center">
+        <div className="border-t border-gray-300 flex-grow mr-3"></div>
+        <span className="text-gray-500 text-sm">OR</span>
+        <div className="border-t border-gray-300 flex-grow ml-3"></div>
+      </div>
+
+      <button
+        onClick={handleGoogleSignUp}
+        disabled={isLoading}
+        className="w-full mt-4 flex items-center justify-center bg-white border border-gray-300 rounded-full px-5 py-2 text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+      >
+        <GoogleSvg />
+        Continue with Google
+      </button>
+
       <div className="mt-4 text-center">
         <p className="text-gray-600">
           Already have an account?{" "}
