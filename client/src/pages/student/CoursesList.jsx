@@ -51,9 +51,9 @@ const CoursesList = () => {
                 className="text-blue-600 cursor-pointer"
                 onClick={() => navigation("/")}
               >
-                Home
+                Home{" "}
               </span>
-              /Course List
+              / Course List
             </p>
           </div>
           <SearchBar data={input} />
