@@ -8,12 +8,9 @@ const CourseDetails = () => {
   const [courseData, setCourseData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const {
-    allCourses,
-    calculateNumberOfLecture,
-    calculateCourseDuration,
-    calculateChapterTime,
-  } = useContext(AppContext);
+  const { allCourses, calculateChapterTime, calculateAverageRating } =
+    useContext(AppContext);
+  // console.log(courseData);
 
   const fetchCourseData = useCallback(() => {
     setLoading(true);
@@ -38,25 +35,40 @@ const CourseDetails = () => {
     <div className="flex md:flex-row flex-col-reverse gap-10 relative items-start justify-between md:px-36 px-8 pt-20 md:pt-20 text-left bg-gradient-to-b from-cyan-100/70">
       {/* Left column */}
       <div className="max-w-xl z-10 text-gray-500">
-        <h1 className="font-semibold text-gray-800">
+        <h1 className="md:course-details-heading-large course-details-heading-small font-semibold text-gray-600">
           {courseData?.courseTitle}
         </h1>
-        <p className="pt-4 md:text-base text-sm">
-          {courseData.courseDescription.slice(0, 400)}
-        </p>
+        <p
+          dangerouslySetInnerHTML={{
+            __html: courseData.courseDescription.slice(0, 400),
+          }}
+          className="pt-4 md:text-base text-sm"
+        ></p>
         {/* Review and rating */}
-        <div className="flex items-center space-x-2">
-          <p>{courseData.rating || 4.5}</p>
+        <div className="flex items-center space-x-2 pt-3 pb-1 text-sm">
+          <p>{calculateAverageRating(courseData)}</p>
           <div className="flex">
             {[...Array(5)].map((_, i) => (
               <img
                 key={i}
-                src={assets.star}
-                alt="star"
+                src={
+                  i < Math.floor(calculateAverageRating(courseData))
+                    ? assets.star
+                    : assets.star_blank
+                }
+                alt=""
                 className="w-3.5 h-3.5"
               />
             ))}
           </div>
+          <p className="text-yellow-600">
+            ( {courseData.courseRatings?.length || 0}{" "}
+            {courseData.courseRatings?.length > 1 ? "Ratings" : "Rating"})
+          </p>
+          <p>
+            {courseData.enrolledStudents?.length || 0}{" "}
+            {courseData.enrolledStudents?.length > 1 ? "Students" : "Student"}
+          </p>
         </div>
         <p className="text-sm">
           Course by
