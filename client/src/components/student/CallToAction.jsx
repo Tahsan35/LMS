@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { assets } from "../../assets/assets";
 
 const CallToAction = () => {
@@ -6,14 +7,19 @@ const CallToAction = () => {
       <h1 className="text-xl md:text-4xl text-gray-800 font-semibold">
         Learn anything, anytime, anywhere
       </h1>
-      <p className="text-gray-500 sm:text-sm">
-        lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      <p className="text-gray-500 sm:text-lg">
+        Thousands of online courses, expert teachers, and personalized learning
+        paths. Start your journey now!
       </p>
       <div className="flex gap-6 items-center font-medium mt-4">
-        <button className="px-10 py-3 rounded-md text-white bg-blue-600">
+        <Link
+          to={`/course-list`}
+          onClick={() => scrollTo(0, 0)}
+          className="px-10 py-3 rounded-md text-white bg-blue-600"
+        >
           Get started
-        </button>
-        <button className="flex items-center gap-2">
+        </Link>
+        <button className="flex items-center gap-2 shadow-md px-8 py-3">
           Learn more <img src={assets.arrow_icon} alt="arrow icon"></img>
         </button>
       </div>

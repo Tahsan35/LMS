@@ -21,14 +21,22 @@ export const useApp = () => useContext(AppContext);
 
 export const AppContextProvider = ({ children }) => {
   // Get user state and functions from useAuth hook
-  const { currentUser, loading, authError, signup, login, logout, loginWithGoogle } = useAuth();
+  const {
+    currentUser,
+    loading,
+    authError,
+    signup,
+    login,
+    logout,
+    loginWithGoogle,
+  } = useAuth();
   const navigate = useNavigate();
 
   // Course-related state
   const [allCourses, setAllCourses] = useState([]);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
 
-  const [isEducator, setIsEducator] = useState(false); // Default to false for safety
+  const [isEducator, setIsEducator] = useState(true); // Default to false for safety
 
   // Load all courses and enrolled courses
   const loadCourses = async () => {
@@ -68,7 +76,21 @@ export const AppContextProvider = ({ children }) => {
   //   loadCourses();
   // }, [currentUser]);
 
+  //funtion to calculate average rating of a course
+  const calculateAverageRating = (course) => {
+    // console.log(course);
+    if (!course.courseRatings || course.courseRatings.length === 0) {
+      return 0;
+    }
+    const totalRating = course.courseRatings.reduce(
+      (sum, review) => sum + review.rating,
+      0
+    );
+    return totalRating / course.courseRatings.length;
+  };
+
   const value = {
+    calculateAverageRating,
     currentUser,
     loading,
     authError,
