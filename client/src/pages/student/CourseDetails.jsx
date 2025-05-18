@@ -7,6 +7,7 @@ import humanizeDuration from "humanize-duration";
 const CourseDetails = () => {
   const { id } = useParams();
   const [courseData, setCourseData] = useState(null);
+  const [openSections, setOpenSections] = useState({});
   const [loading, setLoading] = useState(true);
 
   const {
@@ -28,6 +29,14 @@ const CourseDetails = () => {
   useEffect(() => {
     fetchCourseData();
   }, [fetchCourseData]);
+
+  // toggle section
+  const toggleSection = (sectionId) => {
+    setOpenSections((prevOpenSections) => ({
+      ...prevOpenSections,
+      [sectionId]: !prevOpenSections[sectionId],
+    }));
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -92,7 +101,10 @@ const CourseDetails = () => {
                   key={index}
                   className="border border-gray-300 mb-2 bg-white rounded"
                 >
-                  <div className="flex items-center justify-between px-4 py-3 cursor-pointer select-none">
+                  <div
+                    className="flex items-center justify-between px-4 py-3 cursor-pointer select-none"
+                    onClick={() => toggleSection(index)}
+                  >
                     <div className="flex items-center gap-2">
                       <img src={assets.down_arrow_icon} alt="arrow icon" />
                       <p className="font-medium md:text-base text-sm">
@@ -104,7 +116,11 @@ const CourseDetails = () => {
                       {calculateChapterTime(chapter)}
                     </p>
                   </div>
-                  <div className="overflow-hidden transition-all duration-300 max-h-96">
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ${
+                      openSections[index] ? "max-h-96" : "max-h-0"
+                    } `}
+                  >
                     <ul className="list-disc md:pl-10 pl-4 pr-4 py-2 text-gray-600 border-t border-gray-300">
                       {chapter.chapterContent.map((lecture, lectureIndex) => (
                         <li
