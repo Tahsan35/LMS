@@ -2,14 +2,14 @@ import { assets, dummyTestimonial } from "../../assets/assets";
 
 const TestimonialsSection = () => {
   return (
-    <div className="pb-14 px-8 md:px-0">
+    <div className="px-8 md:px-0 py-16">
       <h2 className="text-3xl font-medium test-gray-800">Testimonials</h2>
       <p className="md:text-lg text-base text-gray-500 mt-3">
         Hear from our learners as they share their journeys of transformation,
         <br />
         success, and how our platform has made a difference in their lives.
       </p>
-      <div className="grid grid-cols-2 gap-8 mt-14 mx-5">
+      <div className="grid xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 px-4 md:px-36 my-10 md:my-16 gap-10">
         {dummyTestimonial.map((testimonial, index) => (
           <div
             key={index}
