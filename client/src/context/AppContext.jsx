@@ -21,7 +21,7 @@ export const useApp = () => useContext(AppContext);
 
 export const AppContextProvider = ({ children }) => {
   // Get user state and functions from useAuth hook
-  const { currentUser, loading, authError, signup, login, logout } = useAuth();
+  const { currentUser, loading, authError, signup, login, logout, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   // Course-related state
@@ -75,6 +75,7 @@ export const AppContextProvider = ({ children }) => {
     signup,
     login,
     logout,
+    loginWithGoogle,
     allCourses,
     navigate,
     isEducator,

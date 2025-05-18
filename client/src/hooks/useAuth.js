@@ -1,16 +1,20 @@
-import { useState, useEffect } from 'react';
-import { auth } from '../firebase/firebase.config';
+import { useState, useEffect } from "react";
+import { auth } from "../firebase/firebase.config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-} from 'firebase/auth';
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 
 export const useAuth = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
+
+  const provider = new GoogleAuthProvider();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -24,6 +28,16 @@ export const useAuth = () => {
     try {
       setAuthError(null);
       return await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      setAuthError(error.message);
+      throw error;
+    }
+  };
+
+  const loginWithGoogle = async () => {
+    try {
+      setAuthError(null);
+      return await signInWithPopup(auth, provider);
     } catch (error) {
       setAuthError(error.message);
       throw error;
@@ -56,5 +70,6 @@ export const useAuth = () => {
     signup,
     login,
     logout,
+    loginWithGoogle,
   };
 };
