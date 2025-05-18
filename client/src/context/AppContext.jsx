@@ -1,4 +1,4 @@
-//import humanizeDuration from "humanize-duration";
+import humanizeDuration from "humanize-duration";
 /* eslint-disable react/prop-types */
 import { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,11 +7,11 @@ import {
   fetchAllCourses,
   fetchEnrolledCourses,
 } from "../services/courseService";
-import {
-  calculateCourseDuration,
-  calculateChapterTime,
-  calculateNumberOfLecture,
-} from "../utils/timeUtils";
+// import {
+//   calculateCourseDuration,
+//   calculateChapterTime,
+//   calculateNumberOfLecture,
+// } from "../utils/timeUtils";
 
 // Create context for sharing global state and functions
 export const AppContext = createContext();
@@ -87,6 +87,33 @@ export const AppContextProvider = ({ children }) => {
       0
     );
     return totalRating / course.courseRatings.length;
+  };
+
+  // calculate course chapter time
+  const calculateChapterTime = (chapter) => {
+    let time = 0;
+    chapter.chapterContent.map((lecture) => (time += lecture.lectureDuration));
+    return humanizeDuration(time * 60 * 1000, { units: ["h", "m"] });
+  };
+
+  // calculate course duration
+  const calculateCourseDuration = (course) => {
+    let time = 0;
+    course.courseContent.map((chapter) =>
+      chapter.chapterContent.map((lecture) => (time += lecture.lectureDuration))
+    );
+    return humanizeDuration(time * 60 * 1000, { units: ["h", "m"] });
+  };
+
+  // calculate number of lecture
+  const calculateNumberOfLecture = (course) => {
+    let count = 0;
+    course.courseContent.forEach((chapter) => {
+      if (Array.isArray(chapter.chapterContent)) {
+        count += chapter.chapterContent.length;
+      }
+    });
+    return count;
   };
 
   const value = {
