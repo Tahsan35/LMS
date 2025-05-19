@@ -22,4 +22,7 @@
   .text-home-heading-small {
     @apply text-[30px];
   }
+  .custom-btn {
+    @apply bg-blue-600 hover:bg-blue-950 rounded text-white md:px-10 px-7 md:py-3 py-2 mx-1;
+  }
 }

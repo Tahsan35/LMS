@@ -15,7 +15,7 @@ const CallToAction = () => {
         <Link
           to={`/course-list`}
           onClick={() => scrollTo(0, 0)}
-          className="px-10 py-3 rounded-md text-white bg-blue-600"
+          className="custom-btn"
         >
           Get started
         </Link>

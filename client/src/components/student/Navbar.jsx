@@ -63,7 +63,7 @@ const Navbar = () => {
                 <span>{currentUser.email}</span>
                 <button
                   onClick={handleLogout}
-                  className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-full transition-colors"
+                  className="custom-btn px-5 py-2 rounded-full! transition-colors"
                 >
                   Logout
                 </button>
@@ -78,7 +78,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/signup"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full transition-colors"
+                  className="bg-blue-600 hover:bg-blue-950 text-white px-5 py-2 rounded-full transition-colors"
                 >
                   Create Account
                 </Link>
@@ -173,7 +173,7 @@ const Navbar = () => {
               <Link
                 to="/signup"
                 onClick={() => setIsMenuOpen(false)}
-                className="block px-3 py-2 text-blue-600 hover:text-blue-700 hover:bg-gray-50 rounded-md"
+                className="block px-3 py-2 text-blue-600 hover:text-blue-950 hover:bg-gray-50 rounded-md"
               >
                 Create Account
               </Link>

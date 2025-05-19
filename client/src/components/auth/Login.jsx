@@ -85,7 +85,7 @@ const Login = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 disabled:bg-blue-300"
+          className="w-full px-5 py-2 rounded-full! custom-btn disabled:bg-blue-400"
         >
           {isLoading ? "Logging in..." : "Login"}
         </button>
@@ -100,7 +100,7 @@ const Login = () => {
       <button
         onClick={handleGoogleLogin}
         disabled={isLoading}
-        className="w-full mt-4 flex items-center justify-center bg-white border border-gray-300 rounded-full px-5 py-2 text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+        className="w-full mt-4 flex items-center justify-center bg-white border border-gray-300 rounded-full px-5 py-2 text-gray-700 hover:bg-cyan-50 disabled:opacity-50"
       >
         <GoogleSvg />
         Continue with Google
@@ -109,7 +109,7 @@ const Login = () => {
       <div className="mt-4 text-center">
         <p className="text-gray-600">
           Dont have an account?{" "}
-          <Link to="/signup" className="text-blue-600 hover:text-blue-700">
+          <Link to="/signup" className="text-blue-600 hover:text-blue-950">
             Create Account
           </Link>
         </p>

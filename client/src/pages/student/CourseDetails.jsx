@@ -57,7 +57,7 @@ const CourseDetails = () => {
           </h1>
           <p
             dangerouslySetInnerHTML={{
-              __html: courseData.courseDescription.slice(0, 400),
+              __html: courseData.courseDescription.slice(0, 200),
             }}
             className="pt-4 md:text-base text-sm"
           ></p>
@@ -106,7 +106,13 @@ const CourseDetails = () => {
                     onClick={() => toggleSection(index)}
                   >
                     <div className="flex items-center gap-2">
-                      <img src={assets.down_arrow_icon} alt="arrow icon" />
+                      <img
+                        className={`transform transition-transform ${
+                          openSections[index] ? "rotate-180" : "rotate-0"
+                        }`}
+                        src={assets.down_arrow_icon}
+                        alt="arrow icon"
+                      />
                       <p className="font-medium md:text-base text-sm">
                         {chapter.chapterTitle}
                       </p>
@@ -156,11 +162,23 @@ const CourseDetails = () => {
               ))}
             </div>
           </div>
+          {/* display course description */}
+          <div className="pt-8 py-20 text-sm">
+            <h3 className="text-xl font-semibold text-gray-800">
+              Course Description
+            </h3>
+            <p
+              dangerouslySetInnerHTML={{
+                __html: courseData.courseDescription,
+              }}
+              className="pt-4"
+            ></p>
+          </div>
         </div>
         {/* Right column */}
-        <div className="shadow-2xl rounded-t md:rounded-none overflow-hidden bg-white min-w-[300px] sm:min-w-[420px]">
+        <div className="shadow-2xl rounded-t md:rounded-none overflow-hidden bg-white min-w-[300px] sm:min-w-[400px]">
           <img src={courseData.courseThumbnail} alt="course thumbnail" />
-          <div className="p-4">
+          <div className="p-5">
             <div className="flex items-center gap-2">
               <img
                 src={assets.time_left_clock_icon}
@@ -185,6 +203,23 @@ const CourseDetails = () => {
               <p className="md:text-lg text-gray-500">
                 {courseData.discount}% off
               </p>
+            </div>
+
+            <div className="flex items-center text-lg md:text-balance gap-4 pt-2 md:pt-4 text-gray-500">
+              <div className="flex items-center gap-1">
+                <img src={assets.star} alt="star icon" />
+                <p>{calculateAverageRating(courseData)}</p>
+              </div>
+              <div className="h-4 w-px bg-gray-500/40"></div>
+              <div className="flex items-center gap-1">
+                <img src={assets.time_clock_icon} alt="clock icon" />
+                <p>{calculateCourseDuration(courseData)}</p>
+              </div>
+              <div className="h-4 w-px bg-gray-500/40"></div>
+              <div className="flex items-center gap-1">
+                <img src={assets.lesson_icon} alt="lesson icon" />
+                <p>{calculateNumberOfLecture(courseData)} lessons</p>
+              </div>
             </div>
           </div>
         </div>

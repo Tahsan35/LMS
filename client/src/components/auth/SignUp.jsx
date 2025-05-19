@@ -46,7 +46,7 @@ const SignUp = () => {
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4 text-center">Create Account</h2>
       {authError && (
-        <p className="text-red-500 text-center mb-4">{authError}</p>
+        <p className="text-blue-500 text-center mb-4">{authError}</p>
       )}
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -82,7 +82,7 @@ const SignUp = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 disabled:bg-blue-300"
+          className="w-full px-5 py-2 rounded-full! custom-btn  disabled:bg-blue-400"
         >
           {isLoading ? "Creating Account..." : "Create Account"}
         </button>
@@ -98,7 +98,7 @@ const SignUp = () => {
       <button
         onClick={handleGoogleSignUp}
         disabled={isLoading}
-        className="w-full mt-4 flex items-center justify-center bg-white border border-gray-300 rounded-full px-5 py-2 text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+        className="w-full mt-4 flex items-center justify-center bg-white border border-gray-300 rounded-full px-5 py-2 text-gray-700 hover:bg-cyan-50 disabled:opacity-50"
       >
         <GoogleSvg />
         Continue with Google
@@ -107,7 +107,7 @@ const SignUp = () => {
       <div className="mt-4 text-center">
         <p className="text-gray-600">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 hover:text-blue-700">
+          <Link to="/login" className="text-blue-600 hover:text-blue-950">
             Login
           </Link>
         </p>
