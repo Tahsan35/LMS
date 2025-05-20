@@ -2,12 +2,24 @@ import { assets } from "../../assets/assets";
 
 const Footer = () => {
   return (
-    <footer className='flex md:flex-row flex-col-reverse justify-between items-center text-left w-full px-8 border-t'>
-      <div>
-        <img src={assets.logo} alt='logo' className='w-20 md:block hidden' />
-        <div className='md:block hidden h-7 w-px bg-gray-500/60'>
-          <p>Copyright 2025 </p>
-        </div>
+    <footer className="flex md:flex-row flex-col-reverse justify-between items-center text-left w-full px-8 border-t">
+      <div className="flex items-center gap-4">
+        <img className="w-20 md:block hidden" src={assets.logo} alt="logo" />
+        <div className="md:block hidden h-7 w-px bg-gray-500/60"></div>
+        <p className="py-4 text-center text-xs md:text-sm text-gray-500">
+          Copyright © Edemy {new Date().getFullYear()}
+        </p>
+      </div>
+      <div className="flex items-center gap-3 max-md:mt-4">
+        <a href="#">
+          <img src={assets.facebook_icon} alt="facebook_icon" />
+        </a>
+        <a href="#">
+          <img src={assets.twitter_icon} alt="twitter_icon" />
+        </a>
+        <a href="#">
+          <img src={assets.instagram_icon} alt="instagram_icon" />
+        </a>
       </div>
     </footer>
   );

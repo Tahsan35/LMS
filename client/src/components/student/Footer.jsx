@@ -73,7 +73,7 @@ const Footer = () => {
       {/* Copyright Section */}
       {/* <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-gray-800"> */}
       <p className="text-center text-xs md:text-sm text-white/60 py-4">
-        Copyright 2025 © Edemy. All Right Reserved.
+        Copyright {new Date().getFullYear()} © Edemy. All Right Reserved.
       </p>
     </footer>
   );
