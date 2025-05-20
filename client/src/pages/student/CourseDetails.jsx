@@ -3,11 +3,16 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../../context/AppContext";
 import { assets } from "../../assets/assets";
 import humanizeDuration from "humanize-duration";
+import Footer from "../../components/student/Footer";
+import Youtube from "react-youtube";
 
 const CourseDetails = () => {
   const { id } = useParams();
   const [courseData, setCourseData] = useState(null);
   const [openSections, setOpenSections] = useState({});
+  const [isAlreadyEnrolled, seIsAlreadyEnrolled] = useState(false);
+  const [playerData, setPlayerData] = useState(null);
+
   const [loading, setLoading] = useState(true);
 
   const {
@@ -142,7 +147,16 @@ const CourseDetails = () => {
                             <p>{lecture.lectureTitle}</p>
                             <div className="flex gap-2">
                               {lecture.isPreviewFree && (
-                                <p className="text-blue-500 cursor-pointer">
+                                <p
+                                  onClick={() => {
+                                    setPlayerData({
+                                      videoId: lecture.lectureUrl
+                                        .split("/")
+                                        .pop(),
+                                    });
+                                  }}
+                                  className="text-blue-500 cursor-pointer"
+                                >
                                   Preview
                                 </p>
                               )}
@@ -177,14 +191,19 @@ const CourseDetails = () => {
         </div>
         {/* Right column */}
         <div className="shadow-2xl rounded-t md:rounded-none overflow-hidden bg-white min-w-[300px] sm:min-w-[400px]">
-          <img src={courseData.courseThumbnail} alt="course thumbnail" />
+          {playerData ? (
+            <Youtube
+              videoId={playerData.videoId}
+              opts={{ playerVars: { autoplay: 1 } }}
+              iframeClassName="w-full aspect-video"
+            />
+          ) : (
+            <img src={courseData.courseThumbnail} alt="course thumbnail" />
+          )}
+
+          {/* <img src={courseData.courseThumbnail} alt="course thumbnail" /> */}
           <div className="p-5">
             <div className="flex items-center gap-2">
-              <img
-                src={assets.time_left_clock_icon}
-                alt="clock icon"
-                className="w-3.5"
-              />
               <p className="text-red-500">
                 <span className="font-medium">5 days</span> left at this price!
               </p>
@@ -207,7 +226,7 @@ const CourseDetails = () => {
 
             <div className="flex items-center text-lg md:text-balance gap-4 pt-2 md:pt-4 text-gray-500">
               <div className="flex items-center gap-1">
-                <img src={assets.star} alt="star icon" />
+                <img className="w-3" src={assets.star} alt="star icon" />
                 <p>{calculateAverageRating(courseData)}</p>
               </div>
               <div className="h-4 w-px bg-gray-500/40"></div>
@@ -221,9 +240,25 @@ const CourseDetails = () => {
                 <p>{calculateNumberOfLecture(courseData)} lessons</p>
               </div>
             </div>
+            <button className="custom-btn w-full my-5">
+              {isAlreadyEnrolled ? "Already Enrolled" : "Enroll Now"}
+            </button>
+            <div className="">
+              <p className="font-medium text-lg md:text-xl text-gray-800">
+                What is in the course?
+              </p>
+              <ul className="ml-4 pt-2 text-sm md:text-base list-disc text-gray-500">
+                <li>Lifetime access with free updates.</li>
+                <li>Step-by-step, hands-on project guidance.</li>
+                <li>Downloadable resources and source code.</li>
+                <li>Quizzes to test your knowledge.</li>
+                <li>Certificate of completion.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
