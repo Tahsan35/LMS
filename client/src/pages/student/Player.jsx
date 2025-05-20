@@ -4,6 +4,8 @@ import { AppContext } from "../../context/AppContext";
 import { assets } from "../../assets/assets";
 import humanizeDuration from "humanize-duration";
 import Youtube from "react-youtube";
+import Footer from "../../components/student/Footer";
+import Rating from "../../components/student/Rating";
 
 const Player = () => {
   const { enrolledCourses, calculateChapterTime } = useContext(AppContext);
@@ -125,6 +127,10 @@ const Player = () => {
                 </div>
               ))}
           </div>
+          <div className="flex items-center gap-2 py-3 mt-10">
+            <h1 className="text-xl">Rate this Course:</h1>
+            <Rating initialRating={3} />
+          </div>
         </div>
         {/* right column */}
         <div>
@@ -134,12 +140,19 @@ const Player = () => {
                 videoId={playerData.lectureUrl.split("/").pop()}
                 iframeClassName="w-full aspect-video"
               />
+              <div className="flex items-center justify-between mt-1">
+                <p>{playerData.lectureTitle}</p>
+                <button className="text-blue-600">
+                  {playerData.isCompleted ? "Completed" : "Mark Complete"}
+                </button>
+              </div>
             </div>
           ) : (
             <img src={courseData ? courseData.courseThumbnail : ""} alt="" />
           )}
         </div>
       </section>
+      <Footer />
     </>
   );
 };
