@@ -21,6 +21,66 @@ const AddCourse = () => {
     isPreviewFree: false,
   });
 
+  const handleChapter = (action, chapterId) => {
+    if (action === "add") {
+      const title = prompt("Enter chapter title:");
+      if (title) {
+        const newChapter = {
+          chapterId: uniqid(),
+          chapterTitle: title,
+          chapterContent: [],
+          collapsed: false, // Or true if you want them initially collapsed
+          chapterOrder:
+            chapters.length > 0 ? chapters.slice(-1)[0].chapterOrder + 1 : 1,
+        };
+        setChapters((prevChapters) => [...prevChapters, newChapter]);
+      }
+    } else if (action === "remove") {
+      setChapters((prevChapters) =>
+        prevChapters.filter((chapter) => chapter.chapterId !== chapterId)
+      );
+    } else if (action === "toggle") {
+      setChapters((prevChapters) =>
+        prevChapters.map((chapter) =>
+          chapter.chapterId === chapterId
+            ? { ...chapter, collapsed: !chapter.collapsed }
+            : chapter
+        )
+      );
+    }
+  };
+
+  const handleAddLectureToChapter = () => {
+    if (!currentChapterId || !lectureDetails.lectureTitle) {
+      alert(
+        "Please ensure you have a chapter selected and lecture title is filled."
+      );
+      return;
+    }
+    setChapters((prevChapters) =>
+      prevChapters.map((chapter) =>
+        chapter.chapterId === currentChapterId
+          ? {
+              ...chapter,
+              chapterContent: [
+                ...chapter.chapterContent,
+                { ...lectureDetails, lectureId: uniqid() }, // Add a unique ID to lectures too
+              ],
+            }
+          : chapter
+      )
+    );
+    // Reset lecture details and close popup
+    setLectureDetails({
+      lectureTitle: "",
+      lectureDuration: "",
+      lectureUrl: "",
+      isPreviewFree: false,
+    });
+    setShowPopup(false);
+    setCurrentChapterId(null);
+  };
+
   //initiate quill only once
   useEffect(() => {
     if (!quillRef.current && editorRef.current) {
@@ -29,33 +89,6 @@ const AddCourse = () => {
       });
     }
   }, []);
-
-  const handleToggleChapter = (indexToToggle) => {
-    setChapters((prevChapters) =>
-      prevChapters.map((chapter, index) =>
-        index === indexToToggle
-          ? { ...chapter, collapsed: !chapter.collapsed }
-          : chapter
-      )
-    );
-  };
-
-  const handleDeleteChapter = (indexToDelete) => {
-    setChapters((prevChapters) =>
-      prevChapters.filter((_, index) => index !== indexToDelete)
-    );
-  };
-
-  // Example of how you might add a chapter (ensure 'collapsed' is initialized)
-  // const addChapterHandler = (title) => {
-  //   const newChapter = {
-  //     id: uniqid(), // or use chapterIndex if IDs are not critical here
-  //     chapterTitle: title,
-  //     chapterContent: [],
-  //     collapsed: true, // Initially collapsed
-  //   };
-  //   setChapters(prev => [...prev, newChapter]);
-  // };
 
   return (
     <div className="h-screen overflow-scroll flex flex-col items-start justify-between md:p-8 p-4 pt-8 pb-0">
@@ -130,7 +163,12 @@ const AddCourse = () => {
         {/* adding chapter and lectures */}
         <div className="flex flex-col gap-1">
           {chapters.map((chapter, chapterIndex) => (
-            <div key={chapterIndex} className="bg-white border rounded-lg mb-4">
+            <div
+              key={chapter.chapterId}
+              className="bg-white border rounded-lg mb-4"
+            >
+              {" "}
+              {/* Use chapter.chapterId as key */}
               <div className="flex items-center justify-between p-4 border-b">
                 <div className="flex items-center">
                   <img
@@ -138,9 +176,9 @@ const AddCourse = () => {
                     width={14}
                     alt="Toggle chapter"
                     className={`mr-2 cursor-pointer transition-all ${
-                      chapter.collapsed && "-rotate-90"
+                      chapter.collapsed ? "-rotate-90" : "" // Ensure class is applied correctly
                     }`}
-                    // onClick={() => handleToggleChapter(chapterIndex)}
+                    onClick={() => handleChapter("toggle", chapter.chapterId)} // Use handleChapter
                   />
                   <span className="font-semibold">
                     {chapterIndex + 1}. {chapter.chapterTitle}
@@ -154,25 +192,33 @@ const AddCourse = () => {
                     src={assets.cross_icon}
                     alt="Delete chapter"
                     className="cursor-pointer w-4 h-4" // Adjust size as needed
-                    // onClick={() => handleDeleteChapter(chapterIndex)}
+                    onClick={() => handleChapter("remove", chapter.chapterId)} // Use handleChapter
                   />
                 </div>
-                {!chapter.collapsed && (
-                  <div className="p-4">
-                    {/* Lectures for this chapter would be mapped and displayed here */}
-                    {chapter.chapterContent.map((lecture, lectureIndex) => {
+              </div>{" "}
+              {/* This div was misplaced, it should close the header of the chapter card */}
+              {!chapter.collapsed && (
+                <div className="p-4">
+                  {/* Lectures for this chapter would be mapped and displayed here */}
+                  {chapter.chapterContent.map(
+                    (
+                      lecture,
+                      lectureIndex // Added parentheses for implicit return
+                    ) => (
                       <div
-                        key={lectureIndex}
+                        key={lecture.lectureId || lectureIndex} // Use a unique lectureId if available
                         className="flex items-center justify-between mb-2"
                       >
                         <span>
-                          {lectureIndex + 1}
+                          {lectureIndex + 1}.{" "}
+                          {/* Added a period for numbering */}
                           {lecture.lectureTitle} - {lecture.lectureDuration}{" "}
                           mins -{" "}
                           <a
                             href={lecture.lectureUrl}
                             target="_blank"
-                            className="text-blue-500"
+                            rel="noopener noreferrer" // Added rel for security
+                            className="text-blue-500 hover:underline"
                           >
                             Link
                           </a>{" "}
@@ -180,20 +226,30 @@ const AddCourse = () => {
                         </span>
                         <img
                           src={assets.cross_icon}
-                          alt="cross_icon"
-                          className="cursor-pointer"
+                          alt="Delete lecture" // More specific alt text
+                          className="cursor-pointer w-3 h-3" // Adjusted size
+                          // onClick={() => handleDeleteLecture(chapter.chapterId, lecture.lectureId)} // You'll need a handler for this
                         />
-                      </div>;
-                    })}
-                    <div className="inline-flex bg-gray-100 p-2 mt-2 rounded cursor-pointer">
-                      + Add Lecture
-                    </div>
+                      </div>
+                    )
+                  )}
+                  <div
+                    className="inline-flex bg-gray-100 p-2 mt-2 rounded cursor-pointer hover:bg-gray-200"
+                    onClick={() => {
+                      setCurrentChapterId(chapter.chapterId);
+                      setShowPopup(true);
+                    }}
+                  >
+                    + Add Lecture
                   </div>
-                )}
-              </div>
-            </div>
+                </div>
+              )}
+            </div> // This div closes the chapter card
           ))}
-          <div className="flex items-center justify-center bg-blue-100 p-2 rounded-lg cursor-pointer">
+          <div
+            className="flex items-center justify-center bg-blue-100 p-2 rounded-lg cursor-pointer"
+            onClick={() => handleChapter("add")}
+          >
             + Add Chapter
           </div>
           {showPopup && (
@@ -264,13 +320,14 @@ const AddCourse = () => {
                   />
                 </div>
                 <button
+                  onClick={handleAddLectureToChapter} // Call the handler to add lecture
                   type="button"
-                  className=" w-full bg-blue-400 text-white px-4 py-2 rounded"
+                  className=" w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
                 >
                   Add Lecture
                 </button>
                 <img
-                  onClick={setShowPopup(false)}
+                  onClick={() => setShowPopup(false)} // Corrected onClick handler
                   src={assets.cross_icon}
                   alt="icon"
                   className="absolute top-4 right-4 w-4 cursor-pointer"
@@ -304,7 +361,7 @@ const AddCourse = () => {
           )}
         </div>
         <button type="submit" className="custom-btn  w-28">
-          +Add
+          Add
         </button>
       </form>
     </div>
