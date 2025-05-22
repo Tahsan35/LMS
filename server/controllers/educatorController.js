@@ -1,6 +1,21 @@
 import Course from "../models/course.js";
 import User from "../models/user.js";
 
+export const updateRoleToEducator = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    user.role = "educator";
+    await user.save();
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(400).send("Error updating role");
+  }
+};
 // Get educator courses
 export const getEducatorCourses = async (req, res) => {
   try {
@@ -75,7 +90,7 @@ export const addLesson = async (req, res) => {
   try {
     const { slug } = req.params;
     const { title, content, video } = req.body;
-    
+
     const updated = await Course.findOneAndUpdate(
       { slug },
       {
@@ -83,7 +98,7 @@ export const addLesson = async (req, res) => {
       },
       { new: true }
     ).exec();
-    
+
     res.json(updated);
   } catch (err) {
     console.error(err);
@@ -96,9 +111,9 @@ export const updateLesson = async (req, res) => {
   try {
     const { slug, lessonId } = req.params;
     const { title, content, video, free_preview } = req.body;
-    
+
     const updated = await Course.findOneAndUpdate(
-      { "slug": slug, "lessons._id": lessonId },
+      { slug: slug, "lessons._id": lessonId },
       {
         $set: {
           "lessons.$.title": title,
@@ -109,7 +124,7 @@ export const updateLesson = async (req, res) => {
       },
       { new: true }
     ).exec();
-    
+
     res.json(updated);
   } catch (err) {
     console.error(err);
@@ -121,14 +136,14 @@ export const updateLesson = async (req, res) => {
 export const deleteLesson = async (req, res) => {
   try {
     const { slug, lessonId } = req.params;
-    
+
     const updated = await Course.findOneAndUpdate(
       { slug },
       {
         $pull: { lessons: { _id: lessonId } },
       }
     ).exec();
-    
+
     res.json({ ok: true });
   } catch (err) {
     console.error(err);

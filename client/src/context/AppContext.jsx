@@ -55,11 +55,25 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
+  // Function to get the current user's Firebase ID token
+  const getCurrentUserToken = async () => {
+    if (currentUser) {
+      try {
+        const token = await currentUser.getIdToken();
+        return token;
+      } catch (error) {
+        console.error("Error getting ID token:", error);
+        return null;
+      }
+    }
+    return null;
+  };
+
   // Initialize isEducator based on user role
   useEffect(() => {
     // Load courses regardless of user state
     loadCourses();
-  }, []); // Remove currentUser dependency
+  });
 
   // // Initialize isEducator based on user role
   // useEffect(() => {
@@ -134,6 +148,7 @@ export const AppContextProvider = ({ children }) => {
     calculateChapterTime,
     enrolledCourses,
     loadCourses,
+    getCurrentUserToken, // Expose the new function
   };
 
   return (
